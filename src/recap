@@ -472,6 +472,10 @@ check_disk_space() {
     FREE_SPACE=${FREE_SPACE%M}
     if [[ "${MIN_FREE_SPACE}" -ge "${FREE_SPACE}" ]]; then
       log ERROR "Unable to run recap due to not enough disk space"
+      if [[ -n "${MAILTO}" ]]; then
+        send_mail
+      fi
+      exit 1
     fi
   fi
   log INFO "Ended check for disk space"
